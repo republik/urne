@@ -1,9 +1,23 @@
 import Head from 'next/head'
 
-import styles from '../styles/Home.module.css'
 import ClientOnly from '../components/ClientOnly'
-import Me from '../components/Me'
 import Questionnaire from '../components/Questionnaire'
+import { css } from 'glamor'
+
+const styles = {
+  container: css({
+    padding: '0 2rem',
+  }),
+  main: css({
+    minHeight: '100vh',
+    padding: '4rem 0',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }),
+}
 
 export default function Index() {
   return (
@@ -17,15 +31,11 @@ export default function Index() {
         <meta name='robots' content='noindex,nofollow' />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Urne</h1>
+      <main {...styles.main}>
         <ClientOnly>
-          <Me />
           <Questionnaire slug={process.env.NEXT_PUBLIC_QUESTIONNAIRE_SLUG} />
         </ClientOnly>
       </main>
-
-      <footer className={styles.footer}>Fusszeile</footer>
     </div>
   )
 }
