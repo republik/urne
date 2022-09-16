@@ -1,3 +1,5 @@
+console.log(JSON.stringify(process.env))
+
 const buildId = process.env.SOURCE_VERSION
 
 /** @type {import('next').NextConfig} */
