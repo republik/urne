@@ -1,4 +1,4 @@
-const buildId = process.env.SOURCE_VERSION || new Date().toISOString()
+const buildId = process.env.SOURCE_VERSION
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
