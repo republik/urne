@@ -1,6 +1,4 @@
-console.log(JSON.stringify(process.env))
-
-const buildId = process.env.SOURCE_VERSION
+const buildId = process.env.VERCEL_GIT_COMMIT_SHA || process.env.SOURCE_VERSION
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
