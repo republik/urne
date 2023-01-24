@@ -122,6 +122,7 @@ export const QuestionnaireContext = createContext()
 export default function Questionnaire({ slug }) {
   const { data, loading, error } = useQuery(QUERY, { variables: { slug } })
   const [answers, setAnswers] = useState({})
+  const [colorScheme] = useColorContext()
 
   const [
     submitAnswer,
@@ -197,6 +198,12 @@ export default function Questionnaire({ slug }) {
 
   const allQuestionsAnswered = Object.keys(answers).length === questions.length
 
+  const eligibilityAlert = merge(
+    styles.eligibilityHint,
+    colorScheme.set('backgroundColor', 'alert'),
+    styles.padded,
+  )
+
   return (
     <QuestionnaireContext.Provider value={value}>
       <H1 {...styles.description}>{description}</H1>
@@ -211,17 +218,23 @@ export default function Questionnaire({ slug }) {
             <Question key={question.id} question={question} idx={idx} />
           ))}
 
-          <div {...styles.cta}>
-            <SubmitError />
-            <Button
-              primary
-              block
-              disabled={value.disable || !allQuestionsAnswered}
-              onClick={onSubmit}
-            >
-              Abschicken
-            </Button>
-          </div>
+          {userHasSubmitted ? (
+            <div {...eligibilityAlert}>
+              <P>Du hast teilgenommen.</P>
+            </div>
+          ) : (
+            <div {...styles.cta}>
+              <SubmitError />
+              <Button
+                primary
+                block
+                disabled={value.disable || !allQuestionsAnswered}
+                onClick={onSubmit}
+              >
+                Abschicken
+              </Button>
+            </div>
+          )}
         </>
       )}
     </QuestionnaireContext.Provider>
@@ -305,7 +318,8 @@ function EligibilityHints() {
   if (me) {
     return (
       <P {...styles.eligibilityHint}>
-        Du nimmst als <b>{me.name}</b> teil.
+        Als <b>{me.name}</b> angemeldet. Deine Antworte werden anonym
+        abgespeichert.
       </P>
     )
   }
