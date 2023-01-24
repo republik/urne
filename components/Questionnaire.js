@@ -202,17 +202,21 @@ export default function Questionnaire({ slug }) {
       <SigninHint />
       <EligibilityHints />
 
-      {/* Questions */}
-      {questions?.map((question) => (
-        <Question key={question.id} question={question} />
-      ))}
+      {!!me && userIsEligible && (
+        <>
+          {/* Questions */}
+          {questions?.map((question, idx) => (
+            <Question key={question.id} question={question} idx={idx} />
+          ))}
 
-      <div {...styles.cta}>
-        <SubmitError />
-        <Button primary block disabled={value.disable} onClick={onSubmit}>
-          Abschicken
-        </Button>
-      </div>
+          <div {...styles.cta}>
+            <SubmitError />
+            <Button primary block disabled={value.disable} onClick={onSubmit}>
+              Abschicken
+            </Button>
+          </div>
+        </>
+      )}
     </QuestionnaireContext.Provider>
   )
 }
@@ -292,7 +296,11 @@ function EligibilityHints() {
   }
 
   if (me) {
-    return <P {...styles.eligibilityHint}>Du nimmst als {me.name} teil.</P>
+    return (
+      <P {...styles.eligibilityHint}>
+        Du nimmst als <b>{me.name}</b> teil.
+      </P>
+    )
   }
 
   return null

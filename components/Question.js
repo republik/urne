@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
+import AutosizeInput from 'react-textarea-autosize'
 import { css } from 'glamor'
 
-import { Checkbox, Interaction, Radio } from '@project-r/styleguide'
+import { Checkbox, Interaction, Radio, Field } from '@project-r/styleguide'
 import { QuestionnaireContext } from './Questionnaire'
 
-const { H2, P } = Interaction
+const { H3, P } = Interaction
 
 const styles = {
   question: css({
@@ -21,30 +22,67 @@ const styles = {
     width: '100%',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
+    flexDirection: 'column',
     gap: 5,
   }),
   option: css({
     marginTop: 0,
-    display: 'table',
+    display: 'block',
     breakInside: 'avoid-column',
+  }),
+  autoSize: css({
+    minHeight: 40,
+    paddingTop: '7px !important',
+    paddingBottom: '6px !important',
   }),
 }
 
-export default function Question({ question }) {
+export default function Question({ question, idx }) {
   const { __typename, text, explanation, id } = question
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState(
+    __typename === 'QuestionTypeText' ? '' : [],
+  )
   const { disable, setAnswer } = useContext(QuestionnaireContext)
 
   useEffect(() => {
     setAnswer(id, { value })
   }, [value])
 
+  console.log({ question })
+  if (__typename === 'QuestionTypeText') {
+    const { text } = question
+
+    return (
+      <div {...styles.question}>
+        <H3 {...styles.text}>
+          {idx + 1}. {text}
+        </H3>
+        {explanation && <P {...styles.text}>{text}</P>}
+        <Field
+          label='Antwort'
+          autoSize={true}
+          renderInput={({ ref, ...inputProps }) => (
+            <AutosizeInput
+              {...styles.autoSize}
+              {...inputProps}
+              inputRef={ref}
+            />
+          )}
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+        />
+      </div>
+    )
+  }
+
   if (__typename === 'QuestionTypeChoice') {
     const { cardinality, options } = question
 
     return (
       <div {...styles.question}>
-        <H2 {...styles.text}>{text}</H2>
+        <H3 {...styles.text}>
+          {idx + 1}. {text}
+        </H3>
         {explanation && <P {...styles.text}>{explanation}</P>}
         <div {...styles.options}>
           {options.map((option, i) => {
