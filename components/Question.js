@@ -40,7 +40,7 @@ const styles = {
 export default function Question({ question, idx }) {
   const { __typename, text, explanation, id } = question
   const [value, setValue] = useState(
-    __typename === 'QuestionTypeText' ? '' : [],
+    __typename === 'QuestionTypeText' ? '–' : [],
   )
   const { disable, setAnswer } = useContext(QuestionnaireContext)
 
@@ -48,7 +48,6 @@ export default function Question({ question, idx }) {
     setAnswer(id, { value })
   }, [value])
 
-  console.log({ question })
   if (__typename === 'QuestionTypeText') {
     const { text } = question
 

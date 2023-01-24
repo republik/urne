@@ -195,6 +195,8 @@ export default function Questionnaire({ slug }) {
       errorSubmitAnswer?.message || errorSubmitQuestionnaire?.message,
   }
 
+  const allQuestionsAnswered = Object.keys(answers).length === questions.length
+
   return (
     <QuestionnaireContext.Provider value={value}>
       <H1 {...styles.description}>{description}</H1>
@@ -211,7 +213,12 @@ export default function Questionnaire({ slug }) {
 
           <div {...styles.cta}>
             <SubmitError />
-            <Button primary block disabled={value.disable} onClick={onSubmit}>
+            <Button
+              primary
+              block
+              disabled={value.disable || !allQuestionsAnswered}
+              onClick={onSubmit}
+            >
               Abschicken
             </Button>
           </div>
