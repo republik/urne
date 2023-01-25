@@ -322,8 +322,8 @@ function EligibilityHints() {
     return (
       <div style={{ marginBottom: 80 }}>
         <P>
-          Als <b>{me.name}</b> angemeldet. Deine Antworte werden anonym
-          abgespeichert.
+          Als <b>{me.name}</b> angemeldet. Deine Antworten werden anonym
+          gespeichert.
         </P>
       </div>
     )
