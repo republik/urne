@@ -214,7 +214,7 @@ export default function Questionnaire({ slug }) {
       {!!me && userIsEligible && (
         <>
           <div>
-            <H2 {...styles.description}>Stimmen Sie folgender Aussage zu?</H2>
+            <H2 {...styles.description}>Stimmst du folgenden Aussagen zu?</H2>
           </div>
           {/* Questions */}
           {questions?.map((question, idx) => (
