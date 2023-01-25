@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 
 import Question from './Question'
 
-const { H1, P } = Interaction
+const { H1, H2, P } = Interaction
 
 const styles = {
   description: css({
@@ -213,6 +213,9 @@ export default function Questionnaire({ slug }) {
 
       {!!me && userIsEligible && (
         <>
+          <div>
+            <H2 {...styles.description}>Stimmen Sie folgender Aussage zu?</H2>
+          </div>
           {/* Questions */}
           {questions?.map((question, idx) => (
             <Question key={question.id} question={question} idx={idx} />
@@ -317,10 +320,12 @@ function EligibilityHints() {
 
   if (me) {
     return (
-      <P {...styles.eligibilityHint}>
-        Als <b>{me.name}</b> angemeldet. Deine Antworte werden anonym
-        abgespeichert.
-      </P>
+      <div style={{ marginBottom: 80 }}>
+        <P>
+          Als <b>{me.name}</b> angemeldet. Deine Antworte werden anonym
+          abgespeichert.
+        </P>
+      </div>
     )
   }
 
